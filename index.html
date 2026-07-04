@@ -1,4 +1,4 @@
-﻿<!doctype html>
+<!doctype html>
 <html lang="ja">
 <head>
   <meta charset="utf-8">
@@ -954,8 +954,22 @@
       return `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(svg)}`;
     }
 
+    let headerOffsetFrame = 0;
+
     function setHeaderOffset() {
-      document.documentElement.style.setProperty("--header-height", `${header.offsetHeight}px`);
+      const height = Math.ceil(header.getBoundingClientRect().height);
+      document.documentElement.style.setProperty("--header-height", `${height}px`);
+    }
+
+    function queueHeaderOffsetUpdate() {
+      if (headerOffsetFrame) {
+        cancelAnimationFrame(headerOffsetFrame);
+      }
+
+      headerOffsetFrame = requestAnimationFrame(() => {
+        setHeaderOffset();
+        headerOffsetFrame = 0;
+      });
     }
 
     function closeMenu() {
@@ -963,6 +977,7 @@
       document.body.classList.remove("menu-open");
       menuButton.setAttribute("aria-expanded", "false");
       menuButton.setAttribute("aria-label", "メニューを開く");
+      queueHeaderOffsetUpdate();
     }
 
     function renderTabs() {
@@ -1070,8 +1085,13 @@
     setHeaderOffset();
     restoreFromHash();
 
+    if ("ResizeObserver" in window) {
+      new ResizeObserver(setHeaderOffset).observe(header);
+    }
+
     window.addEventListener("resize", setHeaderOffset);
     window.addEventListener("hashchange", restoreFromHash);
+    header.addEventListener("transitionend", setHeaderOffset);
 
     menuButton.addEventListener("click", () => {
       const open = !header.classList.contains("is-menu-open");
@@ -1079,7 +1099,7 @@
       document.body.classList.toggle("menu-open", open);
       menuButton.setAttribute("aria-expanded", String(open));
       menuButton.setAttribute("aria-label", open ? "メニューを閉じる" : "メニューを開く");
-      setHeaderOffset();
+      queueHeaderOffsetUpdate();
     });
 
     document.querySelectorAll("[data-home]").forEach((button) => {
