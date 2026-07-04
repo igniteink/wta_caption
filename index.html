@@ -1,0 +1,1094 @@
+﻿<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>T-SHIRT EXHIBITION 2026 | Caption Site</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --paper: #f6f2e9;
+      --paper-deep: #e8dfd0;
+      --ink: #2f2d29;
+      --muted: #716b61;
+      --line: #d3cabd;
+      --accent: #4f604f;
+      --accent-soft: #dce2d8;
+      --rust: #9a624d;
+      --white: #fffdf8;
+      --shadow: 0 18px 50px rgba(48, 43, 34, 0.16);
+      --serif: "Times New Roman", "Yu Mincho", "Hiragino Mincho ProN", "YuMincho", serif;
+      --sans: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans", "Yu Gothic", sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      min-height: 100%;
+      background:
+        radial-gradient(circle at 20% 12%, rgba(154, 98, 77, 0.16), transparent 28rem),
+        radial-gradient(circle at 86% 82%, rgba(79, 96, 79, 0.14), transparent 24rem),
+        var(--paper);
+    }
+
+    body {
+      min-height: 100vh;
+      margin: 0;
+      color: var(--ink);
+      font-family: var(--sans);
+      line-height: 1.8;
+      letter-spacing: 0px;
+      background:
+        linear-gradient(rgba(255, 255, 255, 0.22) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.18) 1px, transparent 1px);
+      background-size: 36px 36px;
+    }
+
+    body.menu-open {
+      overflow: hidden;
+    }
+
+    button,
+    a {
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    button {
+      font: inherit;
+    }
+
+    .site-shell {
+      width: min(100%, 480px);
+      min-height: 100vh;
+      margin: 0 auto;
+      background: var(--white);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      padding: calc(env(safe-area-inset-top) + 24px) 22px 18px;
+      background: rgba(255, 253, 248, 0.94);
+      border-bottom: 1px solid var(--line);
+      backdrop-filter: blur(12px);
+    }
+
+    .header-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .brand-button {
+      display: block;
+      min-width: 0;
+      padding: 0;
+      color: inherit;
+      text-align: left;
+      text-decoration: none;
+      background: none;
+      border: 0;
+      cursor: pointer;
+    }
+
+    .site-title {
+      margin: 0;
+      font-family: var(--serif);
+      font-size: 1.32rem;
+      font-weight: 400;
+      line-height: 1.15;
+      letter-spacing: 0px;
+      text-transform: uppercase;
+      white-space: nowrap;
+      overflow-wrap: anywhere;
+    }
+
+    .tagline {
+      margin: 8px 0 0;
+      color: var(--muted);
+      font-family: var(--serif);
+      font-size: 0.95rem;
+      line-height: 1.5;
+    }
+
+    .icon-button {
+      display: inline-grid;
+      width: 44px;
+      height: 44px;
+      flex: 0 0 44px;
+      place-items: center;
+      color: var(--ink);
+      background: transparent;
+      border: 1px solid transparent;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    .icon-button:focus-visible,
+    .tab-button:focus-visible,
+    .link-pill:focus-visible,
+    .brand-button:focus-visible {
+      outline: 2px solid var(--rust);
+      outline-offset: 3px;
+    }
+
+    .hamburger {
+      display: block;
+      width: 28px;
+      height: 18px;
+      position: relative;
+    }
+
+    .hamburger::before,
+    .hamburger::after,
+    .hamburger span {
+      position: absolute;
+      left: 0;
+      width: 28px;
+      height: 1px;
+      background: currentColor;
+      content: "";
+      transition: transform 180ms ease, opacity 180ms ease;
+    }
+
+    .hamburger::before {
+      top: 0;
+    }
+
+    .hamburger span {
+      top: 8px;
+    }
+
+    .hamburger::after {
+      top: 16px;
+    }
+
+    .site-header.is-menu-open .hamburger::before {
+      transform: translateY(8px) rotate(45deg);
+    }
+
+    .site-header.is-menu-open .hamburger span {
+      opacity: 0;
+    }
+
+    .site-header.is-menu-open .hamburger::after {
+      transform: translateY(-8px) rotate(-45deg);
+    }
+
+    .menu-panel {
+      display: grid;
+      grid-template-rows: 0fr;
+      transition: grid-template-rows 220ms ease;
+    }
+
+    .site-header.is-menu-open .menu-panel {
+      grid-template-rows: 1fr;
+    }
+
+    .menu-inner {
+      overflow: hidden;
+    }
+
+    .menu-links {
+      display: grid;
+      gap: 1px;
+      margin-top: 20px;
+      padding: 1px;
+      background: var(--line);
+    }
+
+    .menu-link {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      min-height: 52px;
+      padding: 12px 14px;
+      color: var(--ink);
+      text-decoration: none;
+      background: var(--white);
+      border: 0;
+      cursor: pointer;
+    }
+
+    .menu-link span:first-child {
+      font-family: var(--serif);
+      font-size: 1rem;
+      letter-spacing: 0px;
+    }
+
+    .menu-link span:last-child {
+      color: var(--muted);
+      font-size: 0.78rem;
+    }
+
+    .tab-bar {
+      position: sticky;
+      top: var(--header-height, 121px);
+      z-index: 19;
+      display: flex;
+      gap: 0;
+      overflow-x: auto;
+      overscroll-behavior-x: contain;
+      scrollbar-width: none;
+      background: rgba(255, 253, 248, 0.96);
+      border-bottom: 1px solid var(--line);
+      scroll-padding-inline: 22px;
+    }
+
+    .tab-bar::-webkit-scrollbar {
+      display: none;
+    }
+
+    .tab-button {
+      position: relative;
+      width: 76px;
+      min-width: 76px;
+      height: 76px;
+      padding: 0;
+      color: var(--ink);
+      font-family: var(--serif);
+      font-size: 1.1rem;
+      letter-spacing: 0px;
+      background: transparent;
+      border: 0;
+      border-right: 1px solid rgba(211, 202, 189, 0.68);
+      cursor: pointer;
+    }
+
+    .tab-button::before {
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: var(--paper-deep);
+      opacity: 0;
+      content: "";
+      transition: opacity 180ms ease;
+    }
+
+    .tab-button::after {
+      position: absolute;
+      left: 14px;
+      right: 14px;
+      bottom: 0;
+      height: 3px;
+      background: var(--accent);
+      opacity: 0;
+      content: "";
+      transform: scaleX(0.65);
+      transition: opacity 180ms ease, transform 180ms ease;
+    }
+
+    .tab-button[aria-selected="true"]::before,
+    .tab-button[aria-selected="true"]::after {
+      opacity: 1;
+    }
+
+    .tab-button[aria-selected="true"]::after {
+      transform: scaleX(1);
+    }
+
+    main {
+      min-height: 62vh;
+      background: var(--white);
+    }
+
+    .view {
+      display: none;
+    }
+
+    .view.is-active {
+      display: block;
+    }
+
+    .top-visual {
+      position: relative;
+      min-height: 360px;
+      padding: 44px 22px 34px;
+      color: #fffdf8;
+      background:
+        linear-gradient(180deg, rgba(30, 31, 29, 0.2), rgba(30, 31, 29, 0.74)),
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 720 900'%3E%3Cdefs%3E%3ClinearGradient id='wall' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop stop-color='%23928a7e'/%3E%3Cstop offset='.55' stop-color='%236f6d66'/%3E%3Cstop offset='1' stop-color='%233b3c38'/%3E%3C/linearGradient%3E%3CradialGradient id='light' cx='.5' cy='.18' r='.75'%3E%3Cstop stop-color='%23fff8e8' stop-opacity='.84'/%3E%3Cstop offset='.38' stop-color='%23d8cbb6' stop-opacity='.38'/%3E%3Cstop offset='1' stop-color='%230f1110' stop-opacity='0'/%3E%3C/radialGradient%3E%3Cfilter id='grain'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3CfeComponentTransfer%3E%3CfeFuncA type='table' tableValues='0 .18'/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3C/defs%3E%3Crect width='720' height='900' fill='url(%23wall)'/%3E%3Crect width='720' height='900' fill='url(%23light)'/%3E%3Crect width='720' height='900' filter='url(%23grain)' opacity='.35'/%3E%3Cpath d='M359 138v72' stroke='%23292825' stroke-width='6' stroke-linecap='round'/%3E%3Cpath d='M268 255c44-32 139-32 183 0' fill='none' stroke='%232d2b27' stroke-width='8' stroke-linecap='round'/%3E%3Cpath d='M236 286c22-54 67-75 123-75s101 21 123 75l62 44-48 108-43-31v247H266V407l-43 31-48-108 61-44z' fill='%23f6f1e8'/%3E%3Cpath d='M246 295c28 45 64 67 113 67s86-22 114-67' fill='none' stroke='%23d9d1c2' stroke-width='8'/%3E%3Cpath d='M292 493c33-64 58-95 89-120 7 31 31 45 49 79 18 35 47 52 76 92H229c25-17 42-28 63-51z' fill='%23515c50' opacity='.8'/%3E%3Cpath d='M242 547c49-37 83-57 118-62 42-6 82 28 132 62H242z' fill='%23364138' opacity='.72'/%3E%3Cpath d='M321 433c29 15 58 44 71 82' stroke='%232c332e' stroke-width='12' stroke-linecap='round' fill='none' opacity='.55'/%3E%3Cpath d='M284 520c42-16 78-22 121-14' stroke='%232c332e' stroke-width='10' stroke-linecap='round' fill='none' opacity='.5'/%3E%3Cpath d='M479 350l23-12 24 9M520 311l16-8 16 7' stroke='%23343a35' stroke-width='5' fill='none' stroke-linecap='round'/%3E%3Crect x='518' y='559' width='116' height='102' fill='%23ded7c9' opacity='.88'/%3E%3Crect x='531' y='575' width='72' height='5' fill='%233c3b37' opacity='.55'/%3E%3Crect x='531' y='594' width='80' height='3' fill='%233c3b37' opacity='.35'/%3E%3Crect x='531' y='608' width='63' height='3' fill='%233c3b37' opacity='.35'/%3E%3Crect x='531' y='622' width='77' height='3' fill='%233c3b37' opacity='.35'/%3E%3C/svg%3E");
+      background-position: center;
+      background-size: cover;
+    }
+
+    .top-copy {
+      position: relative;
+      display: flex;
+      min-height: 282px;
+      flex-direction: column;
+      justify-content: flex-end;
+      gap: 18px;
+    }
+
+    .kicker {
+      width: fit-content;
+      margin: 0;
+      padding: 6px 10px;
+      color: #fffdf8;
+      font-size: 0.74rem;
+      font-weight: 600;
+      letter-spacing: 0px;
+      text-transform: uppercase;
+      background: rgba(35, 35, 32, 0.48);
+      border: 1px solid rgba(255, 253, 248, 0.26);
+    }
+
+    .top-copy h2 {
+      max-width: 10em;
+      margin: 0;
+      font-family: var(--serif);
+      font-size: 3.1rem;
+      font-weight: 400;
+      line-height: 1.05;
+      letter-spacing: 0px;
+    }
+
+    .top-copy p {
+      max-width: 24em;
+      margin: 0;
+      font-size: 0.95rem;
+      line-height: 1.9;
+      text-shadow: 0 1px 16px rgba(0, 0, 0, 0.38);
+    }
+
+    .overview-band {
+      display: grid;
+      gap: 0;
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+      background: var(--paper);
+    }
+
+    .overview-row {
+      display: grid;
+      grid-template-columns: minmax(96px, 34%) 1fr;
+      min-height: 66px;
+      border-top: 1px solid var(--line);
+    }
+
+    .overview-row:first-child {
+      border-top: 0;
+    }
+
+    .overview-label,
+    .overview-value {
+      display: flex;
+      align-items: center;
+      padding: 14px 22px;
+    }
+
+    .overview-label {
+      color: var(--muted);
+      font-size: 0.78rem;
+      letter-spacing: 0px;
+    }
+
+    .overview-value {
+      font-family: var(--serif);
+      font-size: 1rem;
+      line-height: 1.6;
+      border-left: 1px solid var(--line);
+    }
+
+    .section {
+      padding: 30px 22px;
+    }
+
+    .section-title {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 0 0 18px;
+      font-family: var(--serif);
+      font-size: 1.24rem;
+      font-weight: 400;
+      letter-spacing: 0px;
+    }
+
+    .section-title::after {
+      flex: 1;
+      height: 1px;
+      background: var(--line);
+      content: "";
+    }
+
+    .top-lead {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.95rem;
+      line-height: 2;
+    }
+
+    .work-count {
+      display: inline-flex;
+      align-items: center;
+      height: 34px;
+      margin-top: 22px;
+      padding: 0 12px;
+      color: var(--accent);
+      font-size: 0.82rem;
+      font-weight: 700;
+      letter-spacing: 0px;
+      background: var(--accent-soft);
+      border: 1px solid rgba(79, 96, 79, 0.2);
+    }
+
+    .work-hero {
+      aspect-ratio: 4 / 3.25;
+      background: #67645d;
+      overflow: hidden;
+    }
+
+    .artwork-image {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .work-summary {
+      display: grid;
+      gap: 0;
+      background: var(--white);
+      border-bottom: 1px solid var(--line);
+    }
+
+    dl,
+    dt,
+    dd {
+      margin: 0;
+    }
+
+    .detail-row {
+      display: grid;
+      grid-template-columns: minmax(108px, 34%) 1fr;
+      min-height: 64px;
+      margin: 0 22px;
+      border-top: 1px solid var(--line);
+    }
+
+    .detail-row:first-child {
+      border-top: 0;
+    }
+
+    .detail-label {
+      padding: 16px 10px 16px 0;
+      color: var(--muted);
+      font-family: var(--serif);
+      font-size: 0.98rem;
+      line-height: 1.6;
+    }
+
+    .detail-value {
+      min-width: 0;
+      padding: 16px 0;
+      font-family: var(--serif);
+      font-size: 1.03rem;
+      line-height: 1.7;
+      word-break: auto-phrase;
+      overflow-wrap: anywhere;
+    }
+
+    .detail-value.caption {
+      font-size: 0.96rem;
+      line-height: 2.05;
+      white-space: pre-line;
+    }
+
+    .sns-link {
+      display: inline-flex;
+      max-width: 100%;
+      align-items: center;
+      gap: 9px;
+      color: var(--ink);
+      text-decoration: none;
+    }
+
+    .sns-link svg {
+      width: 20px;
+      height: 20px;
+      flex: 0 0 20px;
+    }
+
+    .sns-link span {
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .number-marker {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 24px 22px 18px;
+      background: var(--paper);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .number-marker p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.78rem;
+      letter-spacing: 0px;
+      text-transform: uppercase;
+    }
+
+    .number-marker strong {
+      font-family: var(--serif);
+      font-size: 3.7rem;
+      font-weight: 400;
+      line-height: 0.9;
+      letter-spacing: 0px;
+    }
+
+    .link-pill {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 42px;
+      padding: 0 14px;
+      color: var(--white);
+      font-size: 0.84rem;
+      font-weight: 700;
+      text-decoration: none;
+      background: var(--accent);
+      border: 1px solid var(--accent);
+      border-radius: 8px;
+    }
+
+    .site-footer {
+      padding: 30px 22px calc(env(safe-area-inset-bottom) + 30px);
+      color: var(--muted);
+      text-align: center;
+      background: var(--paper);
+      border-top: 1px solid var(--line);
+    }
+
+    .footer-title {
+      margin: 0;
+      font-family: var(--serif);
+      font-size: 1rem;
+      letter-spacing: 0px;
+    }
+
+    .copyright {
+      margin: 8px 0 0;
+      font-size: 0.78rem;
+    }
+
+    @media (max-width: 360px) {
+      .site-header,
+      .top-visual,
+      .section,
+      .number-marker {
+        padding-right: 18px;
+        padding-left: 18px;
+      }
+
+      .site-title {
+        font-size: 1.18rem;
+      }
+
+      .top-copy h2 {
+        font-size: 2.45rem;
+      }
+
+      .number-marker strong {
+        font-size: 3.1rem;
+      }
+
+      .tab-button {
+        width: 66px;
+        min-width: 66px;
+        height: 68px;
+      }
+
+      .detail-row,
+      .overview-row {
+        grid-template-columns: 1fr;
+      }
+
+      .detail-label,
+      .detail-value,
+      .overview-label,
+      .overview-value {
+        padding-right: 0;
+        padding-left: 0;
+      }
+
+      .detail-label {
+        padding-bottom: 0;
+      }
+
+      .detail-value {
+        padding-top: 4px;
+      }
+
+      .overview-value {
+        padding-top: 0;
+        border-left: 0;
+      }
+    }
+
+    @media (min-width: 760px) {
+      .site-shell {
+        margin-top: 32px;
+        margin-bottom: 32px;
+        border: 1px solid rgba(211, 202, 189, 0.7);
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        scroll-behavior: auto !important;
+        transition-duration: 0.001ms !important;
+        animation-duration: 0.001ms !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="site-shell">
+    <header class="site-header" id="siteHeader">
+      <div class="header-top">
+        <button class="brand-button" type="button" data-home aria-label="トップページへ戻る">
+          <h1 class="site-title">T-SHIRT EXHIBITION 2026</h1>
+          <p class="tagline">着る、表現。つながる、想い。</p>
+        </button>
+        <button class="icon-button" id="menuButton" type="button" aria-label="メニューを開く" aria-controls="menuPanel" aria-expanded="false">
+          <span class="hamburger" aria-hidden="true"><span></span></span>
+        </button>
+      </div>
+      <nav class="menu-panel" id="menuPanel" aria-label="サイトメニュー">
+        <div class="menu-inner">
+          <div class="menu-links">
+            <button class="menu-link" type="button" data-home><span>Top</span><span>Overview</span></button>
+            <button class="menu-link" type="button" data-jump-first><span>Works</span><span>01-12</span></button>
+            <a class="menu-link" href="mailto:info@example.com"><span>Contact</span><span>Mail</span></a>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <nav class="tab-bar" id="tabBar" aria-label="作品番号"></nav>
+
+    <main>
+      <section class="view is-active" id="topView" aria-labelledby="topHeading">
+        <div class="top-visual">
+          <div class="top-copy">
+            <p class="kicker">Caption Archive</p>
+            <h2 id="topHeading">12 works, 12 voices.</h2>
+            <p>展示空間に並ぶTシャツ作品の言葉を、手元の画面で静かにたどるためのキャプションサイトです。</p>
+          </div>
+        </div>
+
+        <div class="overview-band" aria-label="展示概要">
+          <div class="overview-row">
+            <div class="overview-label">会期</div>
+            <div class="overview-value">2026.07.04 - 2026.07.12</div>
+          </div>
+          <div class="overview-row">
+            <div class="overview-label">会場</div>
+            <div class="overview-value">Gallery Kinu</div>
+          </div>
+          <div class="overview-row">
+            <div class="overview-label">作品数</div>
+            <div class="overview-value">12点</div>
+          </div>
+        </div>
+
+        <section class="section" aria-labelledby="statementHeading">
+          <h3 class="section-title" id="statementHeading">Statement</h3>
+          <p class="top-lead">布に残る線、色、余白、そして身にまとう人の記憶。ひとつのTシャツに込められた視点を、作品番号ごとに記録しています。</p>
+          <span class="work-count">WORKS 01-12</span>
+        </section>
+      </section>
+
+      <section class="view" id="workView" aria-live="polite" aria-labelledby="workHeading">
+        <div class="work-hero">
+          <img class="artwork-image" id="workImage" src="" alt="">
+        </div>
+        <div class="number-marker">
+          <div>
+            <p>Work No.</p>
+            <strong id="workHeading">01</strong>
+          </div>
+          <a class="link-pill" id="externalSnsLink" href="#" target="_blank" rel="noreferrer">SNS</a>
+        </div>
+        <div class="work-summary">
+          <dl>
+            <div class="detail-row">
+              <dt class="detail-label">作品番号</dt>
+              <dd class="detail-value" id="workNumber"></dd>
+            </div>
+            <div class="detail-row">
+              <dt class="detail-label">出展者名</dt>
+              <dd class="detail-value" id="artistName"></dd>
+            </div>
+            <div class="detail-row">
+              <dt class="detail-label">SNSリンク</dt>
+              <dd class="detail-value" id="snsHandle"></dd>
+            </div>
+            <div class="detail-row">
+              <dt class="detail-label">作品名</dt>
+              <dd class="detail-value" id="workTitle"></dd>
+            </div>
+            <div class="detail-row">
+              <dt class="detail-label">キャプション</dt>
+              <dd class="detail-value caption" id="captionText"></dd>
+            </div>
+          </dl>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <p class="footer-title">T-SHIRT EXHIBITION 2026</p>
+      <p class="copyright">&copy; 2026 T-Shirt Exhibition Committee</p>
+    </footer>
+  </div>
+
+  <script>
+    const works = [
+      {
+        number: "01",
+        artist: "佐伯 茜（さえき あかね）",
+        title: "はじまりの白",
+        sns: "@akane_threads",
+        snsUrl: "https://www.instagram.com/akane_threads/",
+        palette: ["#f4efe7", "#9b6b52", "#465b50", "#d3c2a5"],
+        motif: "dawn",
+        caption: "まだ名前のない朝の光を、白い布の上に重ねました。\n小さな色のにじみは、これから出会う景色の予感です。\n袖を通すたび、今日という一日が少しだけ新しく見えることを願っています。"
+      },
+      {
+        number: "02",
+        artist: "森野 海斗（もりの かいと）",
+        title: "波紋の手紙",
+        sns: "@kaito_morino",
+        snsUrl: "https://www.instagram.com/kaito_morino/",
+        palette: ["#e9eee8", "#476477", "#a9b8bd", "#33433d"],
+        motif: "ripple",
+        caption: "水面に落ちた一滴が、遠くの岸まで広がっていく。\n言葉にする前の気配や、誰かに届くまでの時間を波紋として描きました。\n静かな青の層に、記憶の速度を閉じ込めています。"
+      },
+      {
+        number: "03",
+        artist: "山本 悠人（やまもと ゆうと）",
+        title: "静寂の呼吸",
+        sns: "@yuto_inkflow",
+        snsUrl: "https://www.instagram.com/yuto_inkflow/",
+        palette: ["#f3efe6", "#222a25", "#7d8277", "#c7b99f"],
+        motif: "mountain",
+        caption: "山は動かず、けれど、すべてを受けとめている。\nその静けさに、わたしたちは何度も救われてきた。\n忙しさの中で、ふと立ち止まり、深く息をする。\nその一瞬が、明日を生きる力になると信じて。"
+      },
+      {
+        number: "04",
+        artist: "藤井 菫（ふじい すみれ）",
+        title: "夜を縫う",
+        sns: "@sumire_stitch",
+        snsUrl: "https://www.instagram.com/sumire_stitch/",
+        palette: ["#f1ece2", "#25263a", "#7e6b8d", "#d7c98d"],
+        motif: "night",
+        caption: "夜の深さは、孤独だけではできていない。\n窓の明かり、帰り道の足音、遠くで揺れる星を糸のように拾い集めました。\n暗さの中にあるやわらかな結び目を見つめた作品です。"
+      },
+      {
+        number: "05",
+        artist: "北村 蓮（きたむら れん）",
+        title: "風の記録",
+        sns: "@ren_kitamura",
+        snsUrl: "https://www.instagram.com/ren_kitamura/",
+        palette: ["#f6f0e6", "#6c836b", "#c0a978", "#4f5f78"],
+        motif: "wind",
+        caption: "目には見えないものほど、身体はよく覚えています。\n布がふくらむ瞬間、木々がざわめく方向、通り過ぎる季節の匂い。\n風の軌跡を線に変え、軽やかな余白として残しました。"
+      },
+      {
+        number: "06",
+        artist: "長谷川 透（はせがわ とおる）",
+        title: "都市の余白",
+        sns: "@toru_gridline",
+        snsUrl: "https://www.instagram.com/toru_gridline/",
+        palette: ["#ece8df", "#3d454c", "#a75f4a", "#b8b0a2"],
+        motif: "city",
+        caption: "ビルの隙間、階段の踊り場、誰も見上げない看板の裏側。\n都市に残された小さな余白を採集し、幾何学的な配置に置き換えました。\n整った線の奥にある人の気配を感じてください。"
+      },
+      {
+        number: "07",
+        artist: "緒方 美月（おがた みづき）",
+        title: "庭の声",
+        sns: "@mizuki_garden",
+        snsUrl: "https://www.instagram.com/mizuki_garden/",
+        palette: ["#f2eee4", "#51725c", "#d08b6d", "#e0c59a"],
+        motif: "garden",
+        caption: "祖母の庭で聞いた葉擦れや土の匂いを、花ではなく影で表しました。\n咲いているものだけが美しいのではなく、散った後の形にも時間は宿ります。\n身近な場所に残る声を拾った一枚です。"
+      },
+      {
+        number: "08",
+        artist: "加納 凛（かのう りん）",
+        title: "余熱",
+        sns: "@rin_afterglow",
+        snsUrl: "https://www.instagram.com/rin_afterglow/",
+        palette: ["#f5efe4", "#aa6553", "#c99c6d", "#4b5250"],
+        motif: "afterglow",
+        caption: "夕暮れが終わったあとも、空にはしばらく熱が残ります。\n終わりきらない感情、言い切れなかった言葉、手のひらの温度。\n消えていくものの中にある鮮やかさを描きました。"
+      },
+      {
+        number: "09",
+        artist: "宮田 旬（みやた しゅん）",
+        title: "交差点の祈り",
+        sns: "@shun_crossing",
+        snsUrl: "https://www.instagram.com/shun_crossing/",
+        palette: ["#ede8de", "#33383f", "#c9b04f", "#7e8a92"],
+        motif: "crossing",
+        caption: "信号が変わる数秒間、知らない人たちの時間が同じ場所で重なります。\nそれぞれの目的地へ向かう背中に、小さな祈りのような線を添えました。\n日常の交差を見つめ直すための作品です。"
+      },
+      {
+        number: "10",
+        artist: "西原 灯（にしはら あかり）",
+        title: "灯台の影",
+        sns: "@akari_beacon",
+        snsUrl: "https://www.instagram.com/akari_beacon/",
+        palette: ["#f4efe5", "#34576b", "#e4d5b2", "#2f332e"],
+        motif: "beacon",
+        caption: "光は遠くを照らすほど、足元に濃い影をつくります。\n誰かを導く強さと、その裏側にある揺らぎを一枚のTシャツに閉じ込めました。\n影を恐れず進むための、静かな目印です。"
+      },
+      {
+        number: "11",
+        artist: "橘 央（たちばな おう）",
+        title: "沈黙の粒子",
+        sns: "@ou_particles",
+        snsUrl: "https://www.instagram.com/ou_particles/",
+        palette: ["#f0ece2", "#5b5e58", "#b2aa9a", "#8c705f"],
+        motif: "particle",
+        caption: "沈黙は空白ではなく、細かな粒子の集まりだと思います。\n言葉にならない気持ちが、少しずつ形を変えながら漂う様子を点と線で構成しました。\n近づくほど密度が見えてくる作品です。"
+      },
+      {
+        number: "12",
+        artist: "相沢 実里（あいざわ みさと）",
+        title: "また会う日",
+        sns: "@misato_return",
+        snsUrl: "https://www.instagram.com/misato_return/",
+        palette: ["#f6f1e8", "#5c6f62", "#ba765e", "#d8c888"],
+        motif: "return",
+        caption: "別れの言葉には、次の約束が少しだけ混ざっています。\nほどけた線がもう一度結ばれていくように、旅立ちと再会の間にある時間を描きました。\n会場を出たあとも、余韻が続いていきますように。"
+      }
+    ];
+
+    const tabBar = document.querySelector("#tabBar");
+    const topView = document.querySelector("#topView");
+    const workView = document.querySelector("#workView");
+    const header = document.querySelector("#siteHeader");
+    const menuButton = document.querySelector("#menuButton");
+    const menuPanel = document.querySelector("#menuPanel");
+    const workImage = document.querySelector("#workImage");
+    const externalSnsLink = document.querySelector("#externalSnsLink");
+    const fields = {
+      heading: document.querySelector("#workHeading"),
+      number: document.querySelector("#workNumber"),
+      artist: document.querySelector("#artistName"),
+      sns: document.querySelector("#snsHandle"),
+      title: document.querySelector("#workTitle"),
+      caption: document.querySelector("#captionText")
+    };
+
+    function artworkSvg(work) {
+      const [base, primary, secondary, accent] = work.palette;
+      const motifPaths = {
+        dawn: `<path d="M175 332c74-90 120-125 170-147 38 63 71 87 118 148H175z" fill="${primary}" opacity=".82"/><circle cx="430" cy="186" r="42" fill="${accent}" opacity=".8"/>`,
+        ripple: `<g fill="none" stroke="${primary}" stroke-width="13" opacity=".76"><ellipse cx="360" cy="338" rx="188" ry="48"/><ellipse cx="360" cy="338" rx="124" ry="32"/><ellipse cx="360" cy="338" rx="62" ry="16"/></g>`,
+        mountain: `<path d="M167 365c74-108 113-151 167-190 34 58 52 84 83 126 23 31 53 55 111 64H167z" fill="${primary}" opacity=".84"/><path d="M218 365c66-56 127-81 205-66 46 9 77 31 119 66H218z" fill="${secondary}" opacity=".72"/>`,
+        night: `<path d="M224 194c58 52 152 55 216 8-18 71-71 119-148 119-50 0-96-38-68-127z" fill="${primary}" opacity=".86"/><g fill="${accent}"><circle cx="454" cy="159" r="7"/><circle cx="492" cy="215" r="5"/><circle cx="202" cy="262" r="5"/></g>`,
+        wind: `<g fill="none" stroke="${primary}" stroke-width="16" stroke-linecap="round" opacity=".76"><path d="M188 248c70-37 149-37 218 0 46 25 89 27 130 6"/><path d="M238 329c58-24 109-23 158 5 40 23 85 21 122-2"/><path d="M169 405c76-25 134-18 186 19"/></g>`,
+        city: `<g fill="${primary}" opacity=".82"><rect x="190" y="219" width="74" height="202"/><rect x="287" y="172" width="92" height="249"/><rect x="405" y="254" width="122" height="167"/></g><path d="M205 251h44M205 294h44M304 214h58M304 257h58M423 292h82M423 336h82" stroke="${accent}" stroke-width="8" opacity=".68"/>`,
+        garden: `<g fill="none" stroke="${primary}" stroke-width="11" stroke-linecap="round"><path d="M358 426c0-98 3-153 50-224"/><path d="M358 394c-63-43-89-91-78-143"/><path d="M389 315c57-2 101-30 127-84"/><path d="M326 331c-45 3-89-17-119-66"/></g><g fill="${accent}" opacity=".82"><ellipse cx="414" cy="205" rx="32" ry="18"/><ellipse cx="278" cy="247" rx="34" ry="19"/><ellipse cx="516" cy="230" rx="33" ry="18"/></g>`,
+        afterglow: `<path d="M164 363c54-83 116-128 188-135 81-8 139 36 207 135H164z" fill="${primary}" opacity=".78"/><path d="M178 410h364" stroke="${accent}" stroke-width="15" stroke-linecap="round" opacity=".76"/><path d="M220 455h280" stroke="${secondary}" stroke-width="10" stroke-linecap="round" opacity=".65"/>`,
+        crossing: `<path d="M182 211l356 251M542 213L184 461" stroke="${primary}" stroke-width="36" stroke-linecap="round" opacity=".82"/><path d="M211 336h296M360 199v302" stroke="${accent}" stroke-width="12" stroke-linecap="round" opacity=".74"/>`,
+        beacon: `<path d="M342 176h38l34 279H308l34-279z" fill="${primary}" opacity=".84"/><path d="M203 264l139-38v61l-139 38zM380 226l151-42v63l-151 40z" fill="${accent}" opacity=".62"/><circle cx="361" cy="198" r="21" fill="${base}"/>`,
+        particle: `<g fill="${primary}" opacity=".8">${Array.from({ length: 24 }, (_, i) => {
+          const x = 184 + (i * 53) % 330;
+          const y = 190 + (i * 83) % 260;
+          const r = 5 + (i % 5) * 3;
+          return `<circle cx="${x}" cy="${y}" r="${r}"/>`;
+        }).join("")}</g><path d="M211 404c103-68 213-67 315 0" stroke="${accent}" stroke-width="9" fill="none" opacity=".58"/>`,
+        return: `<path d="M214 350c66-91 143-138 231-142 52-2 91 15 116 50" stroke="${primary}" stroke-width="18" fill="none" stroke-linecap="round"/><path d="M446 196l116 61-107 74" fill="none" stroke="${primary}" stroke-width="18" stroke-linecap="round" stroke-linejoin="round"/><path d="M194 436c77-38 161-44 252-19" stroke="${accent}" stroke-width="12" fill="none" stroke-linecap="round" opacity=".68"/>`
+      };
+
+      const svg = `
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 585" role="img" aria-label="${work.title}">
+          <defs>
+            <radialGradient id="spot" cx="50%" cy="14%" r="78%">
+              <stop offset="0" stop-color="#fffaf0" stop-opacity=".92"/>
+              <stop offset=".52" stop-color="#d0c4b4" stop-opacity=".55"/>
+              <stop offset="1" stop-color="#474640"/>
+            </radialGradient>
+            <filter id="grain">
+              <feTurbulence type="fractalNoise" baseFrequency=".78" numOctaves="3" stitchTiles="stitch"/>
+              <feColorMatrix type="saturate" values="0"/>
+              <feComponentTransfer><feFuncA type="table" tableValues="0 .12"/></feComponentTransfer>
+            </filter>
+          </defs>
+          <rect width="720" height="585" fill="url(#spot)"/>
+          <rect width="720" height="585" fill="#2e302c" opacity=".15"/>
+          <rect width="720" height="585" filter="url(#grain)" opacity=".44"/>
+          <path d="M360 54v59" stroke="#2e2c28" stroke-width="6" stroke-linecap="round"/>
+          <path d="M279 149c39-30 123-30 162 0" fill="none" stroke="#2e2c28" stroke-width="8" stroke-linecap="round"/>
+          <path d="M236 183c21-48 61-68 124-68 62 0 103 20 124 68l54 39-42 91-40-26v216H264V287l-40 26-42-91 54-39z" fill="${base}"/>
+          <path d="M250 191c29 39 63 58 110 58 46 0 82-19 111-58" fill="none" stroke="#d9d0c2" stroke-width="7"/>
+          ${motifPaths[work.motif]}
+          <rect x="538" y="361" width="100" height="88" fill="#e4dbcd" opacity=".9"/>
+          <rect x="552" y="378" width="58" height="5" fill="#3c3a36" opacity=".52"/>
+          <rect x="552" y="396" width="66" height="3" fill="#3c3a36" opacity=".32"/>
+          <rect x="552" y="410" width="50" height="3" fill="#3c3a36" opacity=".32"/>
+          <rect x="552" y="424" width="62" height="3" fill="#3c3a36" opacity=".32"/>
+        </svg>`;
+
+      return `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(svg)}`;
+    }
+
+    function setHeaderOffset() {
+      document.documentElement.style.setProperty("--header-height", `${header.offsetHeight}px`);
+    }
+
+    function closeMenu() {
+      header.classList.remove("is-menu-open");
+      document.body.classList.remove("menu-open");
+      menuButton.setAttribute("aria-expanded", "false");
+      menuButton.setAttribute("aria-label", "メニューを開く");
+    }
+
+    function renderTabs() {
+      const fragment = document.createDocumentFragment();
+
+      works.forEach((work, index) => {
+        const button = document.createElement("button");
+        button.className = "tab-button";
+        button.type = "button";
+        button.textContent = work.number;
+        button.setAttribute("role", "tab");
+        button.setAttribute("aria-selected", "false");
+        button.dataset.index = index;
+        button.addEventListener("click", () => showWork(index, true));
+        fragment.append(button);
+      });
+
+      tabBar.append(fragment);
+    }
+
+    function renderSnsLink(work) {
+      fields.sns.innerHTML = "";
+      const link = document.createElement("a");
+      link.className = "sns-link";
+      link.href = work.snsUrl;
+      link.target = "_blank";
+      link.rel = "noreferrer";
+      link.setAttribute("aria-label", `${work.artist} のSNSを開く`);
+      link.innerHTML = `
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="currentColor" stroke-width="1.8"/>
+          <circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="1.8"/>
+          <circle cx="17.4" cy="6.6" r="1.25" fill="currentColor"/>
+        </svg>
+        <span>${work.sns}</span>
+      `;
+      fields.sns.append(link);
+    }
+
+    function updateSelectedTab(index) {
+      const buttons = [...tabBar.querySelectorAll(".tab-button")];
+      buttons.forEach((button, buttonIndex) => {
+        button.setAttribute("aria-selected", buttonIndex === index ? "true" : "false");
+      });
+
+      if (index >= 0) {
+        buttons[index].scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
+      }
+    }
+
+    function showTop(updateHash = true) {
+      topView.classList.add("is-active");
+      workView.classList.remove("is-active");
+      updateSelectedTab(-1);
+      closeMenu();
+
+      if (updateHash) {
+        history.replaceState(null, "", location.pathname);
+      }
+
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function showWork(index, updateHash = true) {
+      const work = works[index];
+      if (!work) {
+        showTop(false);
+        return;
+      }
+
+      topView.classList.remove("is-active");
+      workView.classList.add("is-active");
+      fields.heading.textContent = work.number;
+      fields.number.textContent = work.number;
+      fields.artist.textContent = work.artist;
+      fields.title.textContent = work.title;
+      fields.caption.textContent = work.caption;
+      workImage.src = artworkSvg(work);
+      workImage.alt = `作品番号${work.number}「${work.title}」の展示イメージ`;
+      externalSnsLink.href = work.snsUrl;
+      externalSnsLink.textContent = work.sns;
+      renderSnsLink(work);
+      updateSelectedTab(index);
+      closeMenu();
+
+      if (updateHash) {
+        history.replaceState(null, "", `#work-${work.number}`);
+      }
+
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function restoreFromHash() {
+      const match = location.hash.match(/^#work-(\d{2})$/);
+      if (!match) {
+        showTop(false);
+        return;
+      }
+
+      const index = works.findIndex((work) => work.number === match[1]);
+      showWork(index, false);
+    }
+
+    renderTabs();
+    setHeaderOffset();
+    restoreFromHash();
+
+    window.addEventListener("resize", setHeaderOffset);
+    window.addEventListener("hashchange", restoreFromHash);
+
+    menuButton.addEventListener("click", () => {
+      const open = !header.classList.contains("is-menu-open");
+      header.classList.toggle("is-menu-open", open);
+      document.body.classList.toggle("menu-open", open);
+      menuButton.setAttribute("aria-expanded", String(open));
+      menuButton.setAttribute("aria-label", open ? "メニューを閉じる" : "メニューを開く");
+      setHeaderOffset();
+    });
+
+    document.querySelectorAll("[data-home]").forEach((button) => {
+      button.addEventListener("click", () => showTop(true));
+    });
+
+    document.querySelector("[data-jump-first]").addEventListener("click", () => {
+      showWork(0, true);
+    });
+  </script>
+</body>
+</html>
