@@ -48,6 +48,8 @@
 
     .app {
       position: relative;
+      display: flex;
+      flex-direction: column;
       width: min(100%, 430px);
       min-height: 100dvh;
       margin: 0 auto;
@@ -220,7 +222,8 @@
     }
 
     .content {
-      padding: 14px 18px 88px;
+      flex: 1 0 auto;
+      padding: 14px 18px 34px;
     }
 
     .content:focus {
@@ -450,7 +453,7 @@
     }
 
     .image-carousel {
-      margin-bottom: 24px;
+      margin-top: 28px;
     }
 
     .carousel-track {
@@ -476,8 +479,8 @@
     .carousel-slide img {
       display: block;
       width: 100%;
-      aspect-ratio: 1 / 1;
-      object-fit: cover;
+      max-width: 100%;
+      height: auto;
       background: var(--soft);
     }
 
@@ -619,14 +622,9 @@
     }
 
     .site-footer {
-      position: fixed;
-      right: 0;
-      bottom: 0;
-      left: 0;
-      z-index: 25;
-      width: min(100%, 430px);
-      height: calc(46px + env(safe-area-inset-bottom));
-      margin: 0 auto;
+      width: 100%;
+      min-height: calc(46px + env(safe-area-inset-bottom));
+      margin-top: auto;
       padding-bottom: env(safe-area-inset-bottom);
       display: grid;
       place-items: center;
@@ -1506,8 +1504,6 @@
             <p class="work-index">${Number(work.number)} / ${works.length}</p>
           </div>
 
-          ${renderImageCarousel(work)}
-
           <dl class="info-list">
             <div class="info-row">
               <dt class="info-label">作品番号</dt>
@@ -1545,6 +1541,8 @@
             <h2 class="caption-heading" id="captionTitle">キャプション</h2>
             <p class="caption-text">${escapeHTML(work.caption)}</p>
           </section>
+
+          ${renderImageCarousel(work)}
         </article>
       `;
 
