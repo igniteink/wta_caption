@@ -129,17 +129,25 @@
     }
 
     .tab-strip {
-      display: flex;
-      gap: 18px;
+      display: grid;
+      gap: 8px;
       margin: 18px -18px 0;
       padding: 0 18px 4px;
+    }
+
+    .tab-primary-row,
+    .tab-number-panel {
+      display: flex;
+      align-items: center;
+      gap: 18px;
       overflow-x: auto;
       overscroll-behavior-x: contain;
       scrollbar-width: none;
       scroll-snap-type: x proximity;
     }
 
-    .tab-strip::-webkit-scrollbar {
+    .tab-primary-row::-webkit-scrollbar,
+    .tab-number-panel::-webkit-scrollbar {
       display: none;
     }
 
@@ -161,6 +169,49 @@
 
     .tab-button[data-view="top"] {
       min-width: 54px;
+    }
+
+    .tab-group {
+      flex: 0 0 auto;
+      scroll-snap-align: start;
+    }
+
+    .tab-group-button {
+      min-width: max-content;
+      padding: 0 22px 0 2px;
+    }
+
+    .tab-group-button::after {
+      position: absolute;
+      top: 50%;
+      right: 3px;
+      width: 8px;
+      height: 8px;
+      border-right: 1.5px solid currentColor;
+      border-bottom: 1.5px solid currentColor;
+      content: "";
+      transform: translateY(-70%) rotate(45deg);
+      transition: transform 180ms ease;
+    }
+
+    .tab-group.is-expanded .tab-group-button::after {
+      transform: translateY(-25%) rotate(225deg);
+    }
+
+    .tab-number-panel {
+      display: none;
+      align-items: center;
+      gap: 12px;
+      padding-bottom: 2px;
+    }
+
+    .tab-number-panel.is-expanded {
+      display: flex;
+    }
+
+    .tab-group-button.is-active {
+      border-bottom-color: var(--pink);
+      color: var(--pink);
     }
 
     .tab-button.is-active {
@@ -752,6 +803,7 @@
 
     .sns-link:focus-visible,
     .tab-button:focus-visible,
+    .tab-group-button:focus-visible,
     .menu-button:focus-visible,
     .pickup-button:focus-visible,
     .menu-item:focus-visible,
@@ -839,7 +891,7 @@
           </span>
         </button>
       </div>
-      <nav class="tab-strip" id="tabStrip" aria-label="作品番号"></nav>
+      <nav class="tab-strip" id="tabStrip" aria-label="ページとグループ"></nav>
     </header>
 
     <main class="content" id="content" tabindex="-1"></main>
@@ -999,7 +1051,7 @@
       {
         number: "12",
         groupId: "igniteink",
-        artist: "",
+        artist: "とわぼ",
         title: "汚れOKT",
         instagram: "https://www.instagram.com/igniteink_r612/",
         x: "",
@@ -1010,7 +1062,7 @@
       {
         number: "13",
         groupId: "guest",
-        artist: "R.I.",
+        artist: "ドドリア",
         title: "ゴリラグビー",
         instagram: "",
         x: "",
@@ -1206,6 +1258,8 @@
     const menuList = document.getElementById("menuList");
 
     let currentView = "top";
+    let tabPrimaryRow;
+    let tabNumberPanel;
 
     function escapeHTML(value) {
       return String(value ?? "")
@@ -1244,12 +1298,67 @@
       return button;
     }
 
+    function createTabGroup(group) {
+      const wrapper = document.createElement("div");
+      wrapper.className = "tab-group";
+      wrapper.dataset.tabGroupWrap = group.id;
+
+      const groupButton = document.createElement("button");
+      groupButton.type = "button";
+      groupButton.className = "tab-button tab-group-button";
+      groupButton.textContent = group.label;
+      groupButton.dataset.tabGroup = group.id;
+      groupButton.setAttribute("aria-expanded", "false");
+      groupButton.setAttribute("aria-controls", "tabNumberPanel");
+      groupButton.addEventListener("click", () => toggleTabGroup(group.id));
+
+      wrapper.append(groupButton);
+      return wrapper;
+    }
+
+    function setExpandedTabGroup(groupId) {
+      document.querySelectorAll("[data-tab-group]").forEach((button) => {
+        const isExpanded = button.dataset.tabGroup === groupId;
+        button.closest(".tab-group").classList.toggle("is-expanded", isExpanded);
+        button.classList.toggle("is-active", isExpanded);
+        button.setAttribute("aria-expanded", String(isExpanded));
+      });
+
+      tabNumberPanel.innerHTML = "";
+      tabNumberPanel.classList.toggle("is-expanded", Boolean(groupId));
+      tabNumberPanel.hidden = !groupId;
+      tabNumberPanel.dataset.group = groupId || "";
+
+      if (!groupId) {
+        return;
+      }
+
+      worksInGroup(groupId).forEach((work) => {
+        tabNumberPanel.append(createButton(work.number, work.number, "tab-button tab-work-button"));
+      });
+    }
+
+    function toggleTabGroup(groupId) {
+      const nextGroupId = tabNumberPanel.dataset.group === groupId ? "" : groupId;
+      setExpandedTabGroup(nextGroupId);
+      if (nextGroupId) {
+        tabNumberPanel.scrollIntoView({ inline: "nearest", block: "nearest", behavior: "smooth" });
+      }
+    }
+
     function buildNavigation() {
       tabStrip.innerHTML = "";
-      tabStrip.append(createButton("TOP", "top", "tab-button"));
-      works.forEach((work) => {
-        tabStrip.append(createButton(work.number, work.number, "tab-button"));
-      });
+      tabPrimaryRow = document.createElement("div");
+      tabPrimaryRow.className = "tab-primary-row";
+      tabPrimaryRow.append(createButton("TOP", "top", "tab-button"));
+      groups.forEach((group) => tabPrimaryRow.append(createTabGroup(group)));
+
+      tabNumberPanel = document.createElement("div");
+      tabNumberPanel.className = "tab-number-panel";
+      tabNumberPanel.id = "tabNumberPanel";
+      tabNumberPanel.hidden = true;
+
+      tabStrip.append(tabPrimaryRow, tabNumberPanel);
 
       menuList.innerHTML = "";
       menuList.append(createButton("TOP", "top", "menu-item"));
@@ -1266,7 +1375,7 @@
 
       const surveyLink = document.createElement("a");
       surveyLink.className = "menu-link";
-      surveyLink.href = surveyUrl;
+      surveyLink.href = "https://forms.gle/Ue27ByA1kCu2D1mN8";
       surveyLink.target = "_blank";
       surveyLink.rel = "noopener noreferrer";
       surveyLink.textContent = "アンケート";
@@ -1275,6 +1384,11 @@
     }
 
     function setActiveNavigation(view) {
+      const selectedWork = works.find((work) => work.number === view);
+      const activeGroupId = view.startsWith("group:")
+        ? view.replace("group:", "")
+        : selectedWork?.groupId;
+
       document.querySelectorAll("[data-view]").forEach((button) => {
         const isActive = button.dataset.view === view;
         button.classList.toggle("is-active", isActive);
@@ -1286,6 +1400,8 @@
       document.querySelectorAll("[data-group]").forEach((button) => {
         button.classList.toggle("is-active", view === `group:${button.dataset.group}`);
       });
+
+      setExpandedTabGroup(activeGroupId || "");
 
       const activeTab = tabStrip.querySelector(`[data-view="${view}"]`);
       if (activeTab) {
