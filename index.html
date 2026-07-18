@@ -1052,7 +1052,7 @@
         number: "12",
         groupId: "igniteink",
         artist: "とわぼ",
-        title: "汚れOKT",
+        title: "YogoreOK-T",
         instagram: "https://www.instagram.com/igniteink_r612/",
         x: "",
         website: "",
@@ -1117,12 +1117,12 @@
       {
         number: "18",
         groupId: "guest",
-        artist: "",
+        artist: "Yuun",
         title: "チャミちゃん",
         instagram: "",
         x: "",
         website: "",
-        images: [],
+        images: ["yuun.jpg"],
         caption: "2021年頃、当時この場所におでん屋さんがありました。そこの店主様が地域ネコとして、可愛がっていた子です。店主様が急に亡くなりました。その場所に訪れていた為、ご近所の方や通りかかる人達がお世話をするようになりました。\n夕方、通りかかってチャミ～と呼ぶと、何処からか可愛い声でニャ～と走ってきました。\nそれを撮った写真をTシャツにしてみました。\nその年寒くなる前にと、里親さんが引き取っ、今幸せに暮らしているとのことです。\n\n※写真の無断転載禁止"
       },
       {
@@ -1177,7 +1177,7 @@
         instagram: "",
         x: "",
         website: "",
-        images: [],
+        images: ["kuragegasa.jpg"],
         caption: "画像参照"
       },
       {
@@ -1189,7 +1189,7 @@
         x: "",
         website: "",
         images: [],
-        caption: "、疲れたら、ゆっくり休んでリフレッシュ！\nそして「REBOOT」さぁみんな再始動で新しい事にチャレンジしてみよう"
+        caption: "疲れたら、ゆっくり休んでリフレッシュ！\nそして「REBOOT」さぁみんな再始動で新しい事にチャレンジしてみよう"
       },
       {
         number: "25",
@@ -1389,6 +1389,8 @@
         ? view.replace("group:", "")
         : selectedWork?.groupId;
 
+      setExpandedTabGroup(activeGroupId || "");
+
       document.querySelectorAll("[data-view]").forEach((button) => {
         const isActive = button.dataset.view === view;
         button.classList.toggle("is-active", isActive);
@@ -1400,8 +1402,6 @@
       document.querySelectorAll("[data-group]").forEach((button) => {
         button.classList.toggle("is-active", view === `group:${button.dataset.group}`);
       });
-
-      setExpandedTabGroup(activeGroupId || "");
 
       const activeTab = tabStrip.querySelector(`[data-view="${view}"]`);
       if (activeTab) {
