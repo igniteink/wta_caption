@@ -15,6 +15,7 @@
       --blue: #229bd7;
       --violet: #6b55b7;
       --shadow: 0 28px 80px rgba(14, 18, 28, 0.16);
+      --header-offset: 130px;
     }
 
     * {
@@ -53,18 +54,23 @@
       width: min(100%, 430px);
       min-height: 100dvh;
       margin: 0 auto;
+      padding-top: var(--header-offset);
       overflow-x: hidden;
       background: var(--paper);
       box-shadow: var(--shadow);
     }
 
     .site-header {
-      position: sticky;
+      position: fixed;
       top: 0;
+      left: 50%;
       z-index: 20;
+      width: min(100%, 430px);
       padding: 18px 18px 0;
       background: rgba(255, 255, 255, 0.94);
+      box-shadow: 0 8px 18px rgba(19, 20, 28, 0.07);
       backdrop-filter: blur(18px);
+      transform: translateX(-50%);
     }
 
     .brand-row {
@@ -104,7 +110,7 @@
       text-transform: uppercase;
     }
 
-    .menu-button {
+.menu-button {
       display: inline-grid;
       place-items: center;
       flex: 0 0 auto;
@@ -112,7 +118,7 @@
       height: 44px;
       border: 0;
       border-radius: 8px;
-      background: #fff;
+  background: transparent;
       cursor: pointer;
     }
 
@@ -131,10 +137,9 @@
     }
 
     .tab-strip {
-      display: grid;
-      gap: 8px;
+      position: relative;
       margin: 18px -18px 0;
-      padding: 0 18px 4px;
+      padding: 0 18px;
     }
 
     .tab-primary-row,
@@ -147,6 +152,12 @@
       scrollbar-width: none;
       scroll-snap-type: x proximity;
     }
+
+.tab-primary-row {
+  position: relative;
+  z-index: 2;
+  background: transparent;
+}
 
     .tab-primary-row::-webkit-scrollbar,
     .tab-number-panel::-webkit-scrollbar {
@@ -201,14 +212,36 @@
     }
 
     .tab-number-panel {
-      display: none;
+      display: flex;
       align-items: center;
       gap: 12px;
-      padding-bottom: 2px;
+      height: 58px;
+      padding: 8px 18px 10px;
+      background: rgba(255, 255, 255, 0.98);
+      box-shadow: 0 12px 18px rgba(19, 20, 28, 0.11);
+      transform: translateY(-100%);
+      transition: transform 240ms ease;
     }
 
-    .tab-number-panel.is-expanded {
-      display: flex;
+    .tab-number-panel-clip {
+      position: absolute;
+      top: 100%;
+      right: 0;
+      left: 0;
+      z-index: 1;
+      height: 0;
+      overflow: hidden;
+      pointer-events: none;
+      transition: height 240ms ease;
+    }
+
+    .tab-number-panel-clip.is-expanded {
+      height: 58px;
+      pointer-events: auto;
+    }
+
+    .tab-number-panel-clip.is-expanded .tab-number-panel {
+      transform: translateY(0);
     }
 
     .tab-group-button.is-active {
@@ -546,6 +579,12 @@
       align-items: center;
       gap: 14px;
       padding: 10px 0;
+    }
+
+    .sns-placeholder {
+      display: inline-block;
+      padding: 10px 0;
+      color: var(--muted);
     }
 
     .sns-link {
@@ -924,7 +963,7 @@
       }
     ];
 
-    const works = [
+    const sourceWorks = [
       {
         number: "01",
         groupId: "igniteink",
@@ -1235,6 +1274,70 @@
       }
     ];
 
+    function moveWork(originalNumber, number, overrides = {}) {
+      const source = sourceWorks.find((work) => work.number === originalNumber);
+      return { ...source, number, ...overrides };
+    }
+
+    function comingSoonWork(number) {
+      return {
+        number,
+        groupId: "igniteink",
+        artist: "comming soon",
+        title: "comming soon",
+        instagram: "",
+        x: "",
+        website: "",
+        snsText: "comming soon",
+        images: [],
+        caption: "comming soon"
+      };
+    }
+
+    const works = [
+      moveWork("04", "01"),
+      moveWork("05", "02"),
+      moveWork("07", "03"),
+      moveWork("01", "04"),
+      moveWork("11", "05"),
+      moveWork("12", "06"),
+      moveWork("10", "07"),
+      moveWork("02", "11"),
+      moveWork("03", "13"),
+      moveWork("08", "14"),
+      moveWork("09", "15"),
+      comingSoonWork("16"),
+      comingSoonWork("17"),
+      comingSoonWork("18"),
+      moveWork("06", "19"),
+      moveWork("15", "20"),
+      moveWork("28", "21"),
+      moveWork("26", "22"),
+      moveWork("25", "23"),
+      moveWork("24", "24"),
+      moveWork("23", "25", { images: [] }),
+      moveWork("22", "26"),
+      moveWork("21", "27"),
+      moveWork("20", "28"),
+      moveWork("19", "29"),
+      moveWork("16", "30"),
+      moveWork("17", "32"),
+      moveWork("14", "33"),
+      moveWork("27", "34"),
+      moveWork("18", "35", { images: [] }),
+      {
+        number: "36",
+        groupId: "guest",
+        artist: "",
+        title: "いものこちゃんTシャツ",
+        instagram: "",
+        x: "",
+        website: "",
+        images: [],
+        caption: ""
+      }
+    ];
+
     const specialThanks = [
       { name: "出展者のみなさま", note: "作品制作と展示へのご参加に感謝いたします。" },
       { name: "会場スタッフのみなさま", note: "設営、案内、運営のサポートをありがとうございました。" },
@@ -1249,6 +1352,7 @@
 
     const tabStrip = document.getElementById("tabStrip");
     const content = document.getElementById("content");
+    const siteHeader = document.querySelector(".site-header");
     const menuButton = document.getElementById("menuButton");
     const menuBackdrop = document.getElementById("menuBackdrop");
     const menuPanel = document.getElementById("menuPanel");
@@ -1257,6 +1361,7 @@
 
     let currentView = "top";
     let tabPrimaryRow;
+    let tabNumberPanelClip;
     let tabNumberPanel;
 
     function escapeHTML(value) {
@@ -1274,6 +1379,10 @@
 
     function worksInGroup(groupId) {
       return works.filter((work) => work.groupId === groupId);
+    }
+
+    function syncHeaderOffset() {
+      document.documentElement.style.setProperty("--header-offset", `${Math.ceil(siteHeader.getBoundingClientRect().height)}px`);
     }
 
     function createButton(label, view, className) {
@@ -1322,26 +1431,26 @@
         button.setAttribute("aria-expanded", String(isExpanded));
       });
 
-      tabNumberPanel.innerHTML = "";
-      tabNumberPanel.classList.toggle("is-expanded", Boolean(groupId));
-      tabNumberPanel.hidden = !groupId;
-      tabNumberPanel.dataset.group = groupId || "";
-
       if (!groupId) {
+        tabNumberPanelClip.classList.remove("is-expanded");
+        tabNumberPanel.dataset.group = "";
+        syncHeaderOffset();
         return;
       }
 
+      tabNumberPanel.innerHTML = "";
       worksInGroup(groupId).forEach((work) => {
         tabNumberPanel.append(createButton(work.number, work.number, "tab-button tab-work-button"));
       });
+      tabNumberPanel.dataset.group = groupId;
+      tabNumberPanelClip.classList.add("is-expanded");
+
+      syncHeaderOffset();
     }
 
     function toggleTabGroup(groupId) {
       const nextGroupId = tabNumberPanel.dataset.group === groupId ? "" : groupId;
       setExpandedTabGroup(nextGroupId);
-      if (nextGroupId) {
-        tabNumberPanel.scrollIntoView({ inline: "nearest", block: "nearest", behavior: "smooth" });
-      }
     }
 
     function buildNavigation() {
@@ -1354,9 +1463,12 @@
       tabNumberPanel = document.createElement("div");
       tabNumberPanel.className = "tab-number-panel";
       tabNumberPanel.id = "tabNumberPanel";
-      tabNumberPanel.hidden = true;
 
-      tabStrip.append(tabPrimaryRow, tabNumberPanel);
+      tabNumberPanelClip = document.createElement("div");
+      tabNumberPanelClip.className = "tab-number-panel-clip";
+      tabNumberPanelClip.append(tabNumberPanel);
+
+      tabStrip.append(tabPrimaryRow, tabNumberPanelClip);
 
       menuList.innerHTML = "";
       menuList.append(createButton("TOP", "top", "menu-item"));
@@ -1497,11 +1609,12 @@
       }
 
       const group = getGroup(work.groupId);
+      const workPosition = works.findIndex((item) => item.number === work.number) + 1;
       content.innerHTML = `
         <article class="work-view" aria-labelledby="workTitle">
           <div class="work-kicker">
             <h1 class="work-number" id="workTitle">WORK ${escapeHTML(work.number)}</h1>
-            <p class="work-index">${Number(work.number)} / ${works.length}</p>
+            <p class="work-index">${workPosition} / ${works.length}</p>
           </div>
 
           <dl class="info-list">
@@ -1519,15 +1632,17 @@
                 <dd class="info-value">${escapeHTML(work.artist)}</dd>
               </div>
             ` : ""}
-            ${work.instagram || work.x || work.website ? `
+            ${work.instagram || work.x || work.website || work.snsText ? `
               <div class="info-row">
                 <dt class="info-label">SNSリンク</dt>
                 <dd class="info-value">
-                  <div class="sns-links">
-                    ${socialLink("Instagram", work.instagram, icons.instagram)}
-                    ${socialLink("X", work.x, icons.x)}
-                    ${socialLink("Web", work.website, icons.website)}
-                  </div>
+                  ${work.snsText
+                    ? `<span class="sns-placeholder">${escapeHTML(work.snsText)}</span>`
+                    : `<div class="sns-links">
+                        ${socialLink("Instagram", work.instagram, icons.instagram)}
+                        ${socialLink("X", work.x, icons.x)}
+                        ${socialLink("Web", work.website, icons.website)}
+                      </div>`}
                 </dd>
               </div>
             ` : ""}
@@ -1537,10 +1652,12 @@
             </div>
           </dl>
 
-          <section class="caption-block" aria-labelledby="captionTitle">
-            <h2 class="caption-heading" id="captionTitle">キャプション</h2>
-            <p class="caption-text">${escapeHTML(work.caption)}</p>
-          </section>
+          ${work.caption ? `
+            <section class="caption-block" aria-labelledby="captionTitle">
+              <h2 class="caption-heading" id="captionTitle">キャプション</h2>
+              <p class="caption-text">${escapeHTML(work.caption)}</p>
+            </section>
+          ` : ""}
 
           ${renderImageCarousel(work)}
         </article>
@@ -1653,6 +1770,8 @@
         renderWork(works.find((work) => work.number === view));
       }
       setActiveNavigation(view);
+      syncHeaderOffset();
+      requestAnimationFrame(syncHeaderOffset);
       closeMenu();
       content.focus({ preventScroll: true });
       window.scrollTo({ top: 0, behavior: "auto" });
@@ -1731,6 +1850,7 @@
     });
 
     window.addEventListener("popstate", () => render(viewFromHash()));
+    window.addEventListener("resize", syncHeaderOffset);
 
     buildNavigation();
     render(viewFromHash());
